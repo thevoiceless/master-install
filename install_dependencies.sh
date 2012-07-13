@@ -11,7 +11,8 @@ fi
 # Check if running Debian Squeeze
 /usr/bin/apt-get -y install shtool
 shtool platform -v -F "%sp" | grep "Debian GNU/Linux 6"  > /dev/null
-if [[ $? -ne 0 ]]
+# If so
+if [[ $? -eq 0 ]]
 then
     # Make sure backports is in the sources.list (python-requests)
     grep "squeeze-backports" /etc/apt/sources.list > /dev/null

@@ -10,25 +10,52 @@ then
     exit 1
 fi
 
+# Confirm
+echo -en "NOTE: This script has only been tested on Debian Squeeze, but should work\n(or can be made to work) on any Debian-based distribution. It will remove\nany current installation of MAME (sdlmame), Rcade, Wah!Cade, and HiToText.\nAn internet connection is required.\nContinue? ( y / N ) "
+read yn
+case $yn in
+	[Yy]* );;
+	* ) exit 0;;
+esac
+
+# Remove MAME, Rcade, and Wah!Cade if already installed
+if [ -f /usr/local/bin/HiToText.exe ]
+then
+	echo "Removing HiToText..."
+	rm -f /usr/local/bin/HiToText.exe
+	rm -f /etc/sdlmame/HiToText.xml
+fi
+for p in "sdlmame" "rcade" "wahcade"
+do
+	dpkg -L $p  > /dev/null 2>&1
+	if [ $? -eq 0 ]
+	then
+		/usr/bin/apt-get -y --force-yes --purge remove $p
+	fi
+done
+
 # Check if running Debian Squeeze
 /usr/bin/apt-get -y install shtool
+echo -en "**********\nChecking if backports is enabled...\n**********\n"
 shtool platform -v -F "%sp" | grep "Debian GNU/Linux 6"  > /dev/null
-if [[ $? -ne 0 ]]
+if [[ $? -eq 0 ]]
 then
     # Make sure backports is in the sources.list (python-requests)
     grep "squeeze-backports" /etc/apt/sources.list > /dev/null
-    if [[ $? -eq 1 ]]
+    if [[ $? -ne 0 ]]
     then
         echo "Enabling backports to install python-requests package (required for Debian Squeeze)"
         echo "" >> /etc/apt/sources.list
         echo "deb http://backports.debian.org/debian-backports squeeze-backports main" >> /etc/apt/sources.list
+	else
+		echo "Backports already enabled"
     fi
 fi
 
 # Update
 /usr/bin/apt-get update
 
-echo "Installing dependencies"
+echo -en "**********\nInstalling dependencies...\n**********\n"
 p=""
 for t in `cat packages`
 do
@@ -51,16 +78,18 @@ BASE="/tmp/RcadeWithMAME-${TIME}"
 mkdir -p $BASE
 cd $BASE
 
+exit 0
+
 # Download MAME, Rcade, and HiToText
-echo "Downloading MAME..."
+echo -en "**********\nDownloading MAME...\n**********\n"
 git clone git://github.com/johkelly/MAME_hi.git
-echo "Downloading Rcade..."
+echo -en "**********\nDownloading Rcade...\n**********\n"
 git clone git://github.com/thevoiceless/wc-testing.git
-echo "Downloading HiToText..."
+echo -en "**********\nDownloading HiToText...\n**********\n"
 git clone git://github.com/johkelly/HiToText_Mono.git
 
 # Build MAME
-echo "Building MAME..."
+echo -en "**********\nBuilding MAME...\n**********\n"
 cd MAME_hi/mame-0.141
 dpkg-buildpackage -uc -b
 if [ "$?" -ne 0 ]
@@ -70,33 +99,39 @@ then
 fi
 
 # Build Rcade
-echo "Building Rcade..."
+echo -en "**********\nBuilding Rcade...\n**********\n"
 cd $BASE
 cd wc-testing/wahcade
 ./build_deb_package
 
 # Build HiToText
-echo "Building HiToText..."
+echo -en "**********\nBuilding HiToText...\n**********\n"
 cd $BASE
 cd HiToText_Mono
 make
 
 # Install MAME
-echo "Installing MAME..."
+echo -en "**********\nInstalling MAME...\n**********\n"
 cd $BASE
 cd MAME_hi
 dpkg -i sdlmame_0.141*.deb
 
+# Ensure that mame does not update, as that will overwrite the high score patch
+echo "sdlmame hold" | dpkg --set-selections
+
 # Install Rcade
-echo "Installing Rcade"
+echo -en "**********\nInstalling Rcade...\n**********\n"
 cd $BASE
 cd wc-testing/wahcade/dist
 dpkg -i rcade_*.deb
 
 # "Install" HiToText
-echo "Installing HiToText..."
+echo -en "**********\nInstalling HiToText...\n**********\n"
 cd $BASE
 cd HiToText_Mono
 make install
 
+echo -en "**********\nCleaning up...\n**********\n"
+cd /tmp
+rm -rf $BASE
 echo "Done."
