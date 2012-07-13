@@ -78,8 +78,6 @@ BASE="/tmp/RcadeWithMAME-${TIME}"
 mkdir -p $BASE
 cd $BASE
 
-exit 0
-
 # Download MAME, Rcade, and HiToText
 echo -en "**********\nDownloading MAME...\n**********\n"
 git clone git://github.com/johkelly/MAME_hi.git

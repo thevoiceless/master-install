@@ -1,0 +1,1 @@
+master_install.sh downloads, compiles, and installs our patched MAME, Rcade, and HiToText. Simply run "sudo ./master_install.sh"
