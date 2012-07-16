@@ -20,6 +20,7 @@ esac
 
 # Remove MAME, Rcade, and Wah!Cade if already installed
 echo -en "**********\nChecking for previous installations...\n**********\n"
+uninstalled=0
 if [ -f /usr/local/bin/HiToText.exe ]
 then
 	echo "Removing HiToText..."
@@ -32,16 +33,12 @@ do
 	if [ $? -eq 0 ]
 	then
 		/usr/bin/apt-get -y --force-yes --purge remove $p
+		uninstalled=1
 	fi
 done
-if [ -d "${HOME}/.mame" ]
+if [ $uninstalled -ne 0 ]
 then
-	rm -rf ${HOME}/.mame
-fi
-if [ -d "{$HOME}/.wahcade" ]
-then
-	rm -rf ${HOME}/.wahcade
-fi
+	echo -en "For the cleanest possible Rcade installation, you may need to delete the .mame\nand .wahcade directories in your home folder."
 
 # Check if running Debian Squeeze
 /usr/bin/apt-get -y install shtool
@@ -81,7 +78,6 @@ then
     exit 1
 fi
 
-USER=`whoami`
 TIME=`date +%s`
 BASE="/tmp/RcadeWithMAME-${TIME}"
 mkdir -p $BASE
