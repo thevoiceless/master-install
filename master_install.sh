@@ -136,11 +136,13 @@ cd $BASE
 cd HiToText_Mono
 make install
 
-# Run Rcade once to generate files
-#echo -en "**********\nRunning Rcade once to generate files...\n**********\n"
-#wahcade
-
+# Remove files from /tmp
 echo -en "**********\nCleaning up...\n**********\n"
 cd /tmp
 rm -rf $BASE
 echo "Done."
+echo ""
+echo "Next steps:"
+echo "Configure MAME in /etc/sdlmame/mame.ini"
+echo "Run Rcade once to create the ~/.wahcade folder if it does not already exist"
+echo "Configure Rcade via rcade-setup"
