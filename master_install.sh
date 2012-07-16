@@ -6,7 +6,7 @@
 who=`whoami`
 if [[ $who != 'root' ]]
 then
-    echo "You must be root"
+    echo "You must run this script as root."
     exit 1
 fi
 
@@ -19,6 +19,7 @@ case $yn in
 esac
 
 # Remove MAME, Rcade, and Wah!Cade if already installed
+echo -en "**********\nChecking for previous installations...\n**********\n"
 if [ -f /usr/local/bin/HiToText.exe ]
 then
 	echo "Removing HiToText..."
@@ -36,10 +37,10 @@ done
 
 # Check if running Debian Squeeze
 /usr/bin/apt-get -y install shtool
-echo -en "**********\nChecking if backports is enabled...\n**********\n"
 shtool platform -v -F "%sp" | grep "Debian GNU/Linux 6"  > /dev/null
 if [[ $? -eq 0 ]]
 then
+	echo -en "**********\nChecking if backports is enabled...\n**********\n"
     # Make sure backports is in the sources.list (python-requests)
     grep "squeeze-backports" /etc/apt/sources.list > /dev/null
     if [[ $? -ne 0 ]]
