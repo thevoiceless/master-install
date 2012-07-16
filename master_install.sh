@@ -11,7 +11,7 @@ then
 fi
 
 # Confirm
-echo -en "NOTE: This script has only been tested on Debian Squeeze, but should work\n(or can be made to work) on any Debian-based distribution. It will remove\nany current installation of MAME (sdlmame), Rcade, Wah!Cade, and HiToText.\nAn internet connection is required.\nContinue? ( y / N ) "
+echo -en "NOTE: This script has only been tested on Debian Squeeze, but should work\n(or can be made to work) on any Debian-based distribution. It will remove\nany current installation of MAME (sdlmame), Rcade, Wah!Cade, and HiToText.\nFor the cleanest possible installation, you should delete the ~/.mame and\n~/.wahcade directories if they exist. An internet connection is required.\nContinue? ( y / N ) "
 read yn
 case $yn in
 	[Yy]* );;
@@ -20,7 +20,6 @@ esac
 
 # Remove MAME, Rcade, and Wah!Cade if already installed
 echo -en "**********\nChecking for previous installations...\n**********\n"
-uninstalled=0
 if [ -f /usr/local/bin/HiToText.exe ]
 then
 	echo "Removing HiToText..."
@@ -33,14 +32,8 @@ do
 	if [ $? -eq 0 ]
 	then
 		/usr/bin/apt-get -y --force-yes --purge remove $p
-		uninstalled=1
 	fi
 done
-if [ $uninstalled -ne 0 ]
-then
-	echo -en "**********\nFor the cleanest possible Rcade installation, you may need to delete the .mame\nand .wahcade directories in your home folder.\n**********\n"
-	sleep 1
-fi
 
 # Check if running Debian Squeeze
 /usr/bin/apt-get -y install shtool
