@@ -142,7 +142,11 @@ cd /tmp
 rm -rf $BASE
 echo "Done."
 
-echo "\n----------\nNext steps:"
+echo ""
+echo "----------"
+echo "Next steps:"
 echo "* Configure MAME in /etc/sdlmame/mame.ini"
 echo "* Run Rcade once to create the ~/.wahcade folder if it does not already exist"
-echo "* Configure Rcade via rcade-setup\n----------\n"
+echo "* Configure Rcade via rcade-setup"
+echo "----------"
+echo ""
