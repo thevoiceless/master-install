@@ -34,13 +34,13 @@ do
 		/usr/bin/apt-get -y --force-yes --purge remove $p
 	fi
 done
-if [ -d "$HOME/.mame" ]
+if [ -d "${HOME}/.mame" ]
 then
-	rm -rf ~/.mame
+	rm -rf ${HOME}/.mame
 fi
-if [ -d "$HOME/.wahcade" ]
+if [ -d "{$HOME}/.wahcade" ]
 then
-	rm -rf ~/.wahcade
+	rm -rf ${HOME}/.wahcade
 fi
 
 # Check if running Debian Squeeze
