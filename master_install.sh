@@ -130,6 +130,10 @@ cd $BASE
 cd HiToText_Mono
 make install
 
+# Run Rcade once to generate files
+echo -en "**********\nRunning Rcade once to generate files...\n**********\n"
+wahcade
+
 echo -en "**********\nCleaning up...\n**********\n"
 cd /tmp
 rm -rf $BASE
