@@ -38,7 +38,9 @@ do
 done
 if [ $uninstalled -ne 0 ]
 then
-	echo -en "For the cleanest possible Rcade installation, you may need to delete the .mame\nand .wahcade directories in your home folder."
+	echo -en "**********\nFor the cleanest possible Rcade installation, you may need to delete the .mame\nand .wahcade directories in your home folder.**********\n"
+	sleep 1
+fi
 
 # Check if running Debian Squeeze
 /usr/bin/apt-get -y install shtool
