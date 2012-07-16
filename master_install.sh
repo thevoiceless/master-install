@@ -38,7 +38,7 @@ do
 done
 if [ $uninstalled -ne 0 ]
 then
-	echo -en "**********\nFor the cleanest possible Rcade installation, you may need to delete the .mame\nand .wahcade directories in your home folder.**********\n"
+	echo -en "**********\nFor the cleanest possible Rcade installation, you may need to delete the .mame\nand .wahcade directories in your home folder.\n**********\n"
 	sleep 1
 fi
 
