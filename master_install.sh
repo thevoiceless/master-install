@@ -34,6 +34,14 @@ do
 		/usr/bin/apt-get -y --force-yes --purge remove $p
 	fi
 done
+if [ -d "$HOME/.mame" ]
+then
+	rm -rf ~/.mame
+fi
+if [ -d "$HOME/.wahcade" ]
+then
+	rm -rf ~/.wahcade
+fi
 
 # Check if running Debian Squeeze
 /usr/bin/apt-get -y install shtool
